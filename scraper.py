@@ -13,7 +13,7 @@ def determine_status(text):
 def parse_example():
     url = "https://example.com/events"
     r = requests.get(url)
-    soup = BeautifulSoup(r.text, "lxml")
+   soup = BeautifulSoup(r.text, "html.parser")
 
     for e in soup.select(".event"):
         title = e.select_one(".title").text.strip()
