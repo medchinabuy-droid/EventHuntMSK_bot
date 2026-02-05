@@ -10,8 +10,12 @@ def get_sheet():
 
     creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
-    sheet = client.open_by_key(os.getenv("GOOGLE_SHEET_ID")).sheet1
-    return sheet
+    return client.open_by_key(os.getenv("GOOGLE_SHEET_ID")).worksheet("events")
+
+def get_all_uids():
+    sheet = get_sheet()
+    records = sheet.get_all_records()
+    return set(r.get("UID") for r in records if r.get("UID"))
 
 def append_event(row):
     sheet = get_sheet()
